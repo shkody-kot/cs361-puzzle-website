@@ -157,8 +157,13 @@ function display_solved(whichImg) {
 	
 	var newgame = document.getElementById('newgame');
 	newgame.classList.add('hide');
+	document.getElementById('back-button').classList.add('hide');
+	document.getElementById('enable').classList.add('hide');
+	document.getElementById('disable').classList.add('hide');
 	var play_again = document.getElementById('solved-play-again');
 	play_again.classList.remove('hide');
+	document.getElementById('puzzle-solved-buttons').classList.remove('hide');
+	document.getElementById('add-score').classList.remove('hide');
 	
 	var table = document.getElementById('table');
 	console.log(table)
