@@ -248,3 +248,14 @@ i {
 	margin: 25px;
 }
 
+/*Timer styling*/
+.timer-container {
+	float: right;
+	margin: 10px;
+	position: sticky;
+}
+
+#timer {
+	font-weight: 100;
+	font-size: 1.3vw;
+}

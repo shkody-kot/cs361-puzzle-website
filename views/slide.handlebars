@@ -1,4 +1,5 @@
 {{#if button}}
+{{>timer}}
 <center id="puzzle-container">
 	<p id="game-play-message">Solve the puzzle to complete the image!</p>
 	<p id="solved-message" class="hide">Congratulations! You solved the puzzle!</p>
@@ -54,6 +55,8 @@
 		<br>
 		<a id="newgame" class="button">New Game</a>
 		<a class="button" href="/slide">Back to Selection</a>
+		<a id="disable"class="button">Disable Timer</a>
+		<a id="enable"class="button hide">Enable Timer</a>
 		<br>
 	</div>
 	<div id="puzzle-solved-buttons" class="hide">

@@ -1,4 +1,33 @@
 var url = window.location.pathname.split('/');
+var counting;
+/****************************************************
+TIMER
+*****************************************************/
+function set_timer(started)
+{
+	//Timer code adapted from w3schools' countdown code at: https://www.w3schools.com/howto/howto_js_countdown.asp
+	//accessed jan. 24, 2023
+	console.log("welcome to timer land");
+	if (!started)
+	{
+		//get start time
+		var start = new Date().getTime();
+		
+		counting = setInterval(function(){
+			var now = new Date().getTime();
+			var distance = now - start;
+			
+			//calculations for minutes and seconds
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			
+			//display to html
+			if (seconds < 10) { document.getElementById("timer").textContent = minutes + ':0' + seconds; }
+			else { document.getElementById("timer").textContent = minutes + ':' + seconds; }
+		});
+	}
+	else { console.log("stopping"); clearInterval(counting); }
+}
 
 /****************************************************
 SLIDE PUZZLE
@@ -58,9 +87,15 @@ function solvable() {
 
 function checkWin() {
 	var inversions = getInversions();
-	var lastCell = document.getElementById('cell33');
-	if (inversions == 0 && lastCell.classList[0] == 'tile9')
+	var last_cell;
+	if (document.getElementById('cell33').className === "tile9") { last_cell = document.getElementById('cell33');}
+	else { last_cell = document.getElementById('cell44'); }
+	
+	if (inversions == 0 && (last_cell.className == 'tile9' || last_cell.className == 'tile16'))
+	{
+		set_timer(true);
 		return true;
+	}
 	return false;
 }
 
@@ -72,7 +107,7 @@ function getInversions() {
 		var num = square[4];
 		order.push(num);
 	}
-	//console.log("Order: ", order);
+	console.log("Order: ", order);
 	var inversions = 0;
 	for (let i = 0; i < order.length; i++) {
 		for (let x = i + 1; x < order.length; x++) {
@@ -120,12 +155,16 @@ function display_solved(whichImg) {
 	var winMessage = document.getElementById('solved-message');
 	winMessage.classList.remove('hide');
 	
+	var newgame = document.getElementById('newgame');
+	newgame.classList.add('hide');
+	var play_again = document.getElementById('solved-play-again');
+	play_again.classList.remove('hide');
+	
 	var table = document.getElementById('table');
 	console.log(table)
 	table.classList.add('winborder');
 	table.classList.remove('unsolved-border');
 }
-
 
 if (url[1] == "slide") {
 	var tiles = [];
@@ -164,7 +203,8 @@ if (url[1] == "slide") {
 			console.log(tile.className);
 		});
 	}
-
+	
+	//event listeners and functionality for easier slide puzzles
 	if (max === 3)
 	{
 		tile1 = document.getElementById('cell11');
@@ -180,9 +220,14 @@ if (url[1] == "slide") {
 		tile9 = document.getElementById('cell33');
 		
 		shuffle();
+		set_timer(false);
 
 		var newgame = document.getElementById('newgame');
-		newgame.addEventListener("click", shuffle);
+		newgame.addEventListener("click", function(){
+			shuffle();
+			set_timer(true);
+			set_timer(false);
+		});
 
 		tile1.addEventListener("click", function () {
 			var solved = click_tile(1, 1, max);
@@ -232,6 +277,7 @@ if (url[1] == "slide") {
 				display_solved(image);
 		});
 	}
+	//event listeners and functionality for hard slide puzzles
 	else if (max === 4)
 	{
 		tile1 = document.getElementById('cell11');
@@ -255,9 +301,13 @@ if (url[1] == "slide") {
 		tile16 = document.getElementById('cell44');
 		
 		shuffle();
+		set_timer(false);
 
 		var newgame = document.getElementById('newgame');
-		newgame.addEventListener("click", shuffle);
+		newgame.addEventListener("click", function(){
+			shuffle();
+			set_timer(false);
+		});
 
 		tile1.addEventListener("click", function () {
 			var solved = click_tile(1, 1, max);
@@ -344,4 +394,35 @@ if (url[1] == "slide") {
 		});
 	}
 
+	var disable_timer = document.getElementById('disable');
+	var enable_timer = document.getElementById('enable');
+	
+	//enable even listeners for turning on/off the timer
+	disable_timer.addEventListener("click", function() {
+		set_timer(true);
+		disable_timer.classList.add('hide');
+		enable_timer.classList.remove('hide')
+	});
+	
+	enable_timer.addEventListener("click", function() {
+		set_timer(false);
+		disable_timer.classList.remove('hide');
+		enable_timer.classList.add('hide')
+	});
+}
+
+/****************************************************
+SUDOKU PUZZLE
+*****************************************************/
+else if (url[1] == "sudoku")
+{
+	console.log("sudoku time");
+}
+
+/****************************************************
+SCOREBOARD
+*****************************************************/
+else if (url[1] == "score")
+{
+	console.log("welcome to scoreboard");
 }
