@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Puzzle Library</title>
+
+	<!-- This is a 3rd-party stylesheet to incorporate the font family to be used for this page ("Roboto"). -->
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400&display=swap" rel="stylesheet">
+	<!--font-awesome icons-->
+	<script src="https://kit.fontawesome.com/cb2acfacf9.js" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="/style.css" media="screen">
+	<script src="/index.js" charset="utf-8" defer></script>
+
+	<!--link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16" />
+
+	<!--<script src="/fact_template.js" charset="utf-8" defer></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.runtime.js"
+      integrity="sha512-0bRnmqp8jww8h5q9khSJSMF7kUFVuzAiVpbwCr1+kot0yAwtVukdBQGznIvytgpFzy6wEgFbjbNSO2xcSBHTWA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+<body>
+	<header>
+		<div class="topheader">
+			<a href="#">
+				<h1 class="title">
+					<i class="fa-solid fa-qrcode"></i>
+					 Puzzle Library
+				</h1>
+			</a>
+		</div>
+
+		<!-- Side Navbar -->
+		<div class="sidenav">
+			<a class="nav-item" href="/">Home</a>
+			<a class="nav-item" href="/slide">Play Slide Puzzle</a>
+			<a class="nav-item" href="/sudoku">Play Sudoku</a>
+			<a class="nav-item" href="/score">View Scoreboard</a>
+		</div>
+	</header>
+
+	<main class="content-container">
+		{{{body}}}
+	</main>
+
+</body>
+
+</html>
