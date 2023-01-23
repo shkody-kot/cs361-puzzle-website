@@ -107,9 +107,20 @@ function click_tile(row, col, max) {
 
 function solvable() {
 	var inversions = getInversions();
-	if (inversions % 2 === 0)
-		return true;
-	return false;
+	//if board is odd-sized
+	if (document.getElementById('cell33').className === "tile9")
+	{
+		if (inversions % 2 === 0) { return true; }
+		else { return false; }
+	}
+	//if board is even-sized
+	else if (document.getElementById('cell44') != null)
+	{
+		var row_num = parseInt(document.getElementsByClassName('tile16')[0].parentElement.id[3]);
+		console.log(inversions + row_num);
+		if ((inversions + row_num - 1) % 2 === 0) { return false; }
+		else { return true; }
+	}
 }
 
 function checkWin() {
@@ -131,17 +142,24 @@ function getInversions() {
 	var order = [];
 	for (let i = 0; i < tiles.length; i++) {
 		var square = tiles[i].classList[0];
-		var num = square[4];
+		var num;
+		if (square[4] == 0) { num = square[5]; }
+		else if (square[5] == undefined) { num = parseInt(square[4]); }
+		else {  num = parseInt(square[4] + square[5]);}
 		order.push(num);
 	}
-	console.log("Order: ", order);
+	//console.log("Order: ", order);
 	var inversions = 0;
 	for (let i = 0; i < order.length; i++) {
 		for (let x = i + 1; x < order.length; x++) {
 			if (order[i] > order[x])
+			{
+				console.log("length: " + order.length + " " + order[i] + " " + order[x]);
 				inversions = inversions + 1;
+			}
 		}
 	}
+	console.log(inversions);
 	return inversions;
 }
 
@@ -347,9 +365,20 @@ function check_sudoku()
 
 function select_square(square)
 {
+	//clear any previous selection
+	Array.from(document.getElementsByClassName('selected-row-col')).forEach(function (tile) {
+		tile.classList.remove('selected-row-col');
+	});
+	var temp = document.getElementsByClassName('selected-square')[0];
+	if (temp != null ) { temp.classList.remove('selected-square'); }
+	
 	//select square, then select number to place into square
 	console.log(square + " clicked");
 	var square = document.getElementById(square);
+	
+	//if it's a provided square value, do not allow selection
+	if (square.classList.contains('auto')) { return; }
+	
 	var col = square.classList[2];
 	var row = square.parentElement.classList[0];
 	
@@ -372,6 +401,7 @@ function fill_square(number)
 	var square = document.getElementsByClassName('selected-square')[0];
 	square.textContent = number;
 	square.classList.remove('selected-square');
+	square.classList.add('full');
 	
 	//remove visual highlighting
 	Array.from(document.getElementsByClassName('selected-row-col')).forEach(function (tile) {

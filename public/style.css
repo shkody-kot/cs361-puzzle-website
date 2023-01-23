@@ -126,13 +126,13 @@ i {
 
 #solved-message {
 	font-size: 1.3vw;
-	padding: 15px 32px;
+	padding: 15px 15px;
 	font-weight: 100;
 	color: #2a5c82;
 }
 #game-play-message {
 	font-size: 1.3vw;
-	padding: 15px 32px;
+	padding: 15px 15px;
 	font-weight: 100;
 }
 
@@ -143,7 +143,7 @@ Styles for slide puzzle
 
 .tile1, .tile2, .tile3, .tile4, .tile5, .tile6, .tile7, .tile8, .tile9, .tile10,
 .tile11, .tile12, .tile13, .tile14, .tile14, .tile15, .tile16, 
-.tile1h, .tile2h, .tile3h, .tile4h, .tile5h, .tile6h, .tile7h, .tile8h, .tile9h {
+.tile01, .tile02, .tile03, .tile04, .tile05, .tile06, .tile07, .tile08, .tile09 {
 	display: table-cell;
 	border: 2px solid white;
 	background: url("./images/crab0.jpg"); 
@@ -172,15 +172,15 @@ Styles for slide puzzle
 .tile9 {background: white; cursor: default;}
 
 /*Hard mode tiles*/
-.tile1h {background-position: left top;}
-.tile2h {background-position-x: 375px;}
-.tile3h {background-position: 250px top;}
-.tile4h {background-position: right top;}
-.tile5h {background-position-y: 375px;}
-.tile6h {background-position: 375px 375px;}
-.tile7h {background-position: 250px 375px;}
-.tile8h {background-position: right 0px top 375px;}
-.tile9h {background-position: left top 250px;}
+.tile01 {background-position: left top;}
+.tile02 {background-position-x: 375px;}
+.tile03 {background-position: 250px top;}
+.tile04 {background-position: right top;}
+.tile05 {background-position-y: 375px;}
+.tile06 {background-position: 375px 375px;}
+.tile07 {background-position: 250px 375px;}
+.tile08 {background-position: right 0px top 375px;}
+.tile09 {background-position: left top 250px;}
 .tile10 {background-position: 375px 250px;}
 .tile11 {background-position: 250px 250px;}
 .tile12 {background-position: right 250px;}
@@ -280,8 +280,8 @@ div[class^='square'] {
 .col3, .col6, .col9 { border-right-style: solid; border-right-color: black; }
 
 
-#row3 > div, #row6 > div, #row9 > div { border-bottom-style: solid; border-bottom-color: black; }
-#row1 > div, #row4 > div, #row7 > div { border-top-style: solid; border-top-color: black; }
+.sudoku > #row3 > div, .sudoku > #row6 > div, .sudoku > #row9 > div { border-bottom-style: solid; border-bottom-color: black; }
+.sudoku > #row1 > div, .sudoku > #row4 > div, .sudoku > #row7 > div { border-top-style: solid; border-top-color: black; }
 
 #number-box {
 	position: fixed;
@@ -309,3 +309,5 @@ li {
 
 .selected-row-col { background-color: #cdf0c5; }
 .selected-square { background-color: #aed6a5 }
+.full { border-color: black; color: grey; }
+.auto { font-size: 1.4vw; color: black; }

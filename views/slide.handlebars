@@ -1,7 +1,7 @@
 {{#if button}}
 {{>timer}}
 <center id="puzzle-container">
-	<p id="game-play-message">Solve the puzzle to complete the image!</p>
+	<p id="game-play-message">Click on a tile adjacent to the blank tile to move it. Rearrange the tiles so that an image is formed.</p>
 	<p id="solved-message" class="hide">Congratulations! You solved the puzzle!</p>
 	{{#if easy}}
 	<div id="table" class="unsolved-border" style="display: table;">
@@ -25,19 +25,19 @@
 	{{else}}
 	<div id="table" class="unsolved-border" style="display: table;">
 		<div id="row1" style="display: table-row;">
-			<div id="cell11" class="tile1h tiles hard" style="display: table-cell;"></div>
-			<div id="cell12" class="tile2h tiles hard" style="display: table-cell;"></div>
-			<div id="cell13" class="tile3h tiles hard" style="display: table-cell;"></div>
-			<div id="cell14" class="tile4h tiles hard" style="display: table-cell;"></div>
+			<div id="cell11" class="tile01 tiles hard" style="display: table-cell;"></div>
+			<div id="cell12" class="tile02 tiles hard" style="display: table-cell;"></div>
+			<div id="cell13" class="tile03 tiles hard" style="display: table-cell;"></div>
+			<div id="cell14" class="tile04 tiles hard" style="display: table-cell;"></div>
 		</div>
 		<div id="row2" style="display: table-row;">
-			<div id="cell21" class="tile5h tiles hard" style="display: table-cell;"></div>
-			<div id="cell22" class="tile6h tiles hard" style="display: table-cell;"></div>
-			<div id="cell23" class="tile7h tiles hard" style="display: table-cell;"></div>
-			<div id="cell24" class="tile8h tiles hard" style="display: table-cell;"></div>
+			<div id="cell21" class="tile05 tiles hard" style="display: table-cell;"></div>
+			<div id="cell22" class="tile06 tiles hard" style="display: table-cell;"></div>
+			<div id="cell23" class="tile07 tiles hard" style="display: table-cell;"></div>
+			<div id="cell24" class="tile08 tiles hard" style="display: table-cell;"></div>
 		</div>
 		<div id="row3" style="display: table-row;">
-			<div id="cell31" class="tile9h tiles hard" style="display: table-cell;"></div>
+			<div id="cell31" class="tile09 tiles hard" style="display: table-cell;"></div>
 			<div id="cell32" class="tile10 tiles hard" style="display: table-cell;"></div>
 			<div id="cell33" class="tile11 tiles hard" style="display: table-cell;"></div>
 			<div id="cell34" class="tile12 tiles hard" style="display: table-cell;"></div>
@@ -63,6 +63,7 @@
 		<a id="solved-play-again" class="button" href="/slide">Play Again </a>
 		<a id="add-score" class="button">Add Time to Scoreboard </a>
 	</div>
+	{{>spacer}}
 </center>
 {{else}}
 {{>selection}}
