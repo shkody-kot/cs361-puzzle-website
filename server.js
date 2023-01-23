@@ -52,11 +52,11 @@ app.get('/slide/:num', function (request, response) {
 	response.status(200).render('slide', { layout: 'main', button: true, easy: easy_setting });
 });
 
-/*app.get('/sudoku', function (request, response) {
-	response.status(200).render('slide', { layout: 'main', button: false });
+app.get('/sudoku', function (request, response) {
+	response.status(200).render('sudoku', { layout: 'main' });
 });
 
-app.get('/score', function (request, response) {
+/*app.get('/score', function (request, response) {
 	
 });*/
 

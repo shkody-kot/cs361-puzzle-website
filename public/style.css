@@ -137,7 +137,9 @@ i {
 }
 
 
-/*Styles for slide puzzle*/
+/****************************
+Styles for slide puzzle
+*****************************/
 
 .tile1, .tile2, .tile3, .tile4, .tile5, .tile6, .tile7, .tile8, .tile9, .tile10,
 .tile11, .tile12, .tile13, .tile14, .tile14, .tile15, .tile16, 
@@ -259,3 +261,51 @@ i {
 	font-weight: 100;
 	font-size: 1.3vw;
 }
+
+/****************************
+Styles for sudoku puzzle
+*****************************/
+div[class^='square'] {
+	font-weight: 100;
+	width: 25px;
+	height: 30px;
+	font-size: 1.3vw;
+	padding:15px 20px;
+	border-top-style: solid;
+	border-left-style: solid;
+	/*border-color: lightgrey;*/
+}
+
+.col1, .col4, .col7 { border-left-color: black; }
+.col3, .col6, .col9 { border-right-style: solid; border-right-color: black; }
+
+
+#row3 > div, #row6 > div, #row9 > div { border-bottom-style: solid; border-bottom-color: black; }
+#row1 > div, #row4 > div, #row7 > div { border-top-style: solid; border-top-color: black; }
+
+#number-box {
+	position: fixed;
+	margin: 2px 25px;
+	width: 10%;
+	border-style: solid;
+	border-color: #2a5c82;
+	height: 75%;
+}
+
+li {
+	margin-top: 20px;
+	margin-bottom: 40px;
+	list-style: none;
+	margin-left: -40px;
+}
+
+.notes {
+	color: grey;
+	font-size: 0.6vw;
+	white-space: initial;
+	padding: 0;
+	margin: 0;
+}
+
+.selected-row-col { background-color: #cdf0c5; }
+.selected-square { background-color: #aed6a5 }

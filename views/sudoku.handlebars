@@ -1,0 +1,133 @@
+{{>timer}}
+<center id="puzzle-container">
+	<div id="number-box">
+		<ul>
+			<li><a id="1" class="button">1</a></li>
+			<li><a id="2" class="button">2</a></li>
+			<li><a id="3" class="button">3</a></li>
+			<li><a id="4" class="button">4</a></li>
+			<li><a id="5" class="button">5</a></li>
+			<li><a id="6" class="button">6</a></li>
+			<li><a id="7" class="button">7</a></li>
+			<li><a id="8" class="button">8</a></li>
+			<li><a id="9" class="button">9</a></li>
+		</ul>
+	</div>
+	
+	<p id="game-play-message">Fill in all the blank spaces!</p>
+	<p id="solved-message" class="hide">Congratulations! You solved the puzzle!</p>
+	
+	<div id="table" class="unsolved-border sudoku" style="display: table;">
+		<div id="row1">
+			<div id="cell11" class="square1 box1 col1" style="display: table-cell; "> <p class="notes"> 1 2 3 4 5 6 </p></div>
+			<div id="cell12" class="square2 box1 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell13" class="square3 box1 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell14" class="square4 box2 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell15" class="square5 box2 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell16" class="square6 box2 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell17" class="square7 box3 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell18" class="square8 box3 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell19" class="square9 box3 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row2">
+			<div id="cell21" class="square10 box1 col1" style="display: table-cell; ">  <p class="notes"></p></div>
+			<div id="cell22" class="square11 box1 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell23" class="square12 box1 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell24" class="square13 box2 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell25" class="square14 box2 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell26" class="square15 box2 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell27" class="square16 box3 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell28" class="square17 box3 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell29" class="square18 box3 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row3">
+			<div id="cell31" class="square19 box1 col1" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell32" class="square20 box1 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell33" class="square21 box1 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell34" class="square22 box2 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell35" class="square23 box2 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell36" class="square24 box2 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell37" class="square25 box3 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell38" class="square26 box3 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell39" class="square27 box3 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row4">
+			<div id="cell41" class="square28 box4 col1" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell42" class="square29 box4 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell43" class="square30 box4 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell44" class="square31 box5 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell45" class="square32 box5 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell46" class="square33 box5 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell47" class="square34 box6 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell48" class="square35 box6 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell49" class="square36 box6 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row5">
+			<div id="cell51" class="square37 box4 col1" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell52" class="square38 box4 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell53" class="square39 box4 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell54" class="square40 box5 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell55" class="square41 box5 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell56" class="square42 box5 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell57" class="square43 box6 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell58" class="square44 box6 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell59" class="square45 box6 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row6">
+			<div id="cell61" class="square46 box4 col1" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell62" class="square47 box4 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell63" class="square48 box4 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell64" class="square49 box5 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell65" class="square50 box5 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell66" class="square51 box5 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell67" class="square52 box6 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell68" class="square53 box6 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell69" class="square54 box6 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row7">
+			<div id="cell71" class="square55 box7 col1" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell72" class="square56 box7 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell73" class="square57 box7 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell74" class="square58 box8 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell75" class="square59 box8 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell76" class="square60 box8 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell77" class="square61 box9 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell78" class="square62 box9 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell79" class="square63 box9 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row8">
+			<div id="cell81" class="square64 box7 col1" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell82" class="square65 box7 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell83" class="square66 box7 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell84" class="square67 box8 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell85" class="square68 box8 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell86" class="square69 box8 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell87" class="square70 box9 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell88" class="square71 box9 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell89" class="square72 box9 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+		<div id="row9">
+			<div id="cell91" class="square73 box7 col1" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell92" class="square74 box7 col2" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell93" class="square75 box7 col3" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell94" class="square76 box8 col4" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell95" class="square77 box8 col5" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell96" class="square78 box8 col6" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell97" class="square79 box9 col7" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell98" class="square80 box9 col8" style="display: table-cell; "> <p class="notes"></p></div>
+			<div id="cell99" class="square81 box9 col9" style="display: table-cell; "> <p class="notes"></p></div>
+		</div>
+	</div>
+	
+	<div id="button">
+		<br>
+		<br>
+		<a id="newgame" class="button">New Game</a>
+		<a id="disable"class="button">Disable Timer</a>
+		<a id="enable"class="button hide">Enable Timer</a>
+		<br>
+	</div>
+	<div id="puzzle-solved-buttons" class="hide">
+		<a id="solved-play-again" class="button" href="/sudoku">Play Again </a>
+		<a id="add-score" class="button">Add Time to Scoreboard </a>
+	</div>
