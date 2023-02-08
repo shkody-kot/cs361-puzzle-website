@@ -56,7 +56,11 @@ app.get('/sudoku', function (request, response) {
 	response.status(200).render('sudoku', { layout: 'main' });
 });
 
-/*app.get('/score', function (request, response) {
+/*app.get('/memory', function (request, response) {
+	
+});
+
+app.get('/score', function (request, response) {
 	
 });*/
 

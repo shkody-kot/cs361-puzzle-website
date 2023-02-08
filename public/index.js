@@ -6,7 +6,8 @@ var disable_timer, enable_timer;
 
 //global sudoku variables
 var sudoku_array = [];
-var notes;
+var user_array = [];
+var notes, solutions;
 /****************************************************
 TIMER
 *****************************************************/
@@ -317,49 +318,19 @@ if (url[1] == "slide") {
 /****************************************************
 SUDOKU PUZZLE
 *****************************************************/
+function legal_move(square, value)
+{
+	
+}
+
 function check_sudoku()
 {
-	var current_box;
-	var current_col;
-	var current_row;
-	var temp = [];
-	for (var i = 1; i <= 9; i++)
+	//checks if the user filled in the grid correctly
+	for (var i = 0; i < 81; i++)
 	{
-		//check all the boxes
-		current_box = 'box' + i;
-		let box = document.getElementsByClassName(current_box);
-		Array.from(box).forEach(entry => {
-			temp.push(entry.textContent);
-		});
-		
-		if (!(temp.includes('1') && temp.includes('2') && temp.includes('3') &&
-			temp.includes('4') && temp.includes('5') && temp.includes('6') && 
-			temp.includes('7') && temp.includes('8') && temp.includes('9')))
-			return false;
-		
-		temp = [];
-		
-		//check all the columns
-		current_col = 'col' + i;
-		let current_col = document.getElementsByClassName(current_col);
-		Array.from(box).forEach(entry => {
-			temp.push(entry.textContent);
-		});
-		
-		if (!(temp.includes('1') && temp.includes('2') && temp.includes('3') &&
-			temp.includes('4') && temp.includes('5') && temp.includes('6') && 
-			temp.includes('7') && temp.includes('8') && temp.includes('9')))
-			return false;
-		
-		//check all the rows
-		current_row = 'row' + i;
-		let current_row = document.getElementById(current_row);
-		for (const child of current_row.children) { temp.push(child.textContent); }
-		if (!(temp.includes('1') && temp.includes('2') && temp.includes('3') &&
-			temp.includes('4') && temp.includes('5') && temp.includes('6') && 
-			temp.includes('7') && temp.includes('8') && temp.includes('9')))
-			return false;
+		if (user_array[i] != sudoku_array[i]) { return false; }
 	}
+	
 	return true;
 }
 
@@ -403,20 +374,236 @@ function fill_square(number)
 	square.classList.remove('selected-square');
 	square.classList.add('full');
 	
+	//add value of square to user array
+	var row, col;
+	row = parseInt(square.id[4]) - 1;
+	col = parseInt(square.id[5]) - 1;
+	user_array[row * 9 + col] = number;
+	
 	//remove visual highlighting
 	Array.from(document.getElementsByClassName('selected-row-col')).forEach(function (tile) {
 		tile.classList.remove('selected-row-col');
 	});
-	
+	if (check_sudoku() == true)
+	{
+		set_timer(true);
+		document.getElementById('game-play-message').classList.add('hide');
+		document.getElementById('solved-message').classList.remove('hide');
+		
+		document.getElementById('newgame').classList.add('hide');
+		document.getElementById('back-button').classList.add('hide');
+		document.getElementById('enable').classList.add('hide');
+		document.getElementById('disable').classList.add('hide');
+		document.getElementById('solved-play-again').classList.remove('hide');
+		document.getElementById('puzzle-solved-buttons').classList.remove('hide');
+		document.getElementById('add-score').classList.remove('hide');
+		
+		var table = document.getElementById('table');
+		table.classList.add('winborder');
+		table.classList.remove('unsolved-border');
+	}
 }
 
-function generate_sudoku()
+function check_grid_full(grid)
 {
-	//empty array and fill with 81 zeroes
-	sudoku_array = [];
-	for (var i = 0; i < 81; i++) { sudoku_array.push('0'); } 
+	for (var i = 0; i < 81; i++)
+	{
+		if (grid[i] == 0) { return false; }
+	}
+	//grid is completely full
+	return true;
 }
 
+//shuffles an array
+function random_index(array)
+{
+	var temp, random;
+	for (var i = 0; i < array.length; i++)
+	{
+		temp = array[i];
+		random = array.length * Math.random() | 0;
+		array[i] = array[random];
+		array[random] = temp;
+	}
+	return array;
+}
+
+function backtrack(grid)
+{
+	for (var i = 0; i < 81; i++)
+	{
+		row = parseInt(i / 9);
+		col = i % 9;
+		//if cell is blank:
+		if (grid[row * 9 + col] == 0)
+		{
+			for (var index = 0; index < 9; index++)
+			{
+				var number = index + 1;
+				//check that this number has not been used in current row
+				if (number != grid[row * 9 + 0] && number != grid[row * 9 + 1] && number != grid[row * 9 + 2] && 
+					number != grid[row * 9 + 3] && number != grid[row * 9 + 4] && number != grid[row * 9 + 5] && 
+					number != grid[row * 9 + 6] && number != grid[row * 9 + 7] && number != grid[row * 9 + 8])
+				{
+					//check that this number is not in the current column
+					//console.log('no duplicates in row, checking column for value ' + number);
+					if (number != grid[0 * 9 + col] && number != grid[1 * 9 + col] && number != grid[2 * 9 + col] && 
+						number != grid[3 * 9 + col] && number != grid[4 * 9 + col] && number != grid[5 * 9 + col] && 
+						number != grid[6 * 9 + col] && number != grid[7 * 9 + col] && number != grid[8 * 9 + col])
+					{
+						//find the 3x3 square that we're in right now
+						//console.log('no duplicates in column, checking square for value ' + number);
+						var square = [];
+						var row_start, col_start;
+						//get rows for square
+						if (row < 3) { row_start = 0; }
+						else if (row < 6) { row_start = 3; }
+						else { row_start = 6; }
+						
+						//get columns for square
+						if (col < 3) { col_start = 0; }
+						else if (col < 6) { col_start = 3; }
+						else { col_start = 6; }
+						
+						//add slices of grid into square
+						square.push(grid[row_start * 9 + col_start], grid[row_start * 9 + col_start + 1], grid[row_start * 9 + col_start + 2]);
+						square.push(grid[(row_start + 1) * 9 + col_start], grid[(row_start + 1) * 9 + col_start + 1], grid[(row_start + 1) * 9 + col_start + 2]);
+						square.push(grid.slice((row_start + 2) * 9 + col_start, (row_start + 2) * 9 + col_start + 3));
+												
+						//if number not in square
+						if (square.includes(number) == false)
+						{
+							grid[row * 9 + col] = number;
+							//console.log('no duplicates in square; adding ' + number + ' to row ' + row + ', column ' + col);
+							if (check_grid_full(grid) == true) 
+							{ 
+								solutions += 1; 
+								break; 
+							}
+							else { if (backtrack(grid) == true) { return true; }} 
+						}
+					}
+				}
+			}
+			break;
+		}
+	}
+	grid[row * 9 + col] = 0;
+}
+
+/* Implementation of sudoku generation and backtracking algorithms adopted from:
+	- https://www.101computing.net/sudoku-generator-algorithm/
+	- https://stackoverflow.com/questions/6924216/how-to-generate-sudoku-boards-with-unique-solutions
+*/
+function generate_sudoku(grid)
+{	
+	//numbers array
+	var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	var num_filled, row, col;
+	
+	//generate a completely full valid grid
+	for (var i = 0; i < 81; i++)
+	{
+		row = parseInt(i / 9);
+		col = i % 9;
+		//console.log('row: ' + row + ' col:' + col);
+		//if cell is blank:
+		if (grid[row * 9 + col] == 0)
+		{
+			numbers = random_index(numbers);
+			for (var index = 0; index < 9; index++)
+			{
+				var number = numbers[index];
+				//check that this number has not been used in current row
+				if (number != grid[row * 9 + 0] && number != grid[row * 9 + 1] && number != grid[row * 9 + 2] && 
+					number != grid[row * 9 + 3] && number != grid[row * 9 + 4] && number != grid[row * 9 + 5] && 
+					number != grid[row * 9 + 6] && number != grid[row * 9 + 7] && number != grid[row * 9 + 8])
+				{
+					//check that this number is not in the current column
+					//console.log('no duplicates in row, checking column for value ' + number);
+					if (number != grid[0 * 9 + col] && number != grid[1 * 9 + col] && number != grid[2 * 9 + col] && 
+						number != grid[3 * 9 + col] && number != grid[4 * 9 + col] && number != grid[5 * 9 + col] && 
+						number != grid[6 * 9 + col] && number != grid[7 * 9 + col] && number != grid[8 * 9 + col])
+					{
+						//find the 3x3 square that we're in right now
+						//console.log('no duplicates in column, checking square for value ' + number);
+						var square = [];
+						var row_start, col_start;
+						//get rows for square
+						if (row < 3) { row_start = 0; }
+						else if (row < 6) { row_start = 3; }
+						else { row_start = 6; }
+						
+						//get columns for square
+						if (col < 3) { col_start = 0; }
+						else if (col < 6) { col_start = 3; }
+						else { col_start = 6; }
+						
+						//add slices of grid into square
+						square.push(grid[row_start * 9 + col_start], grid[row_start * 9 + col_start + 1], grid[row_start * 9 + col_start + 2]);
+						square.push(grid[(row_start + 1) * 9 + col_start], grid[(row_start + 1) * 9 + col_start + 1], grid[(row_start + 1) * 9 + col_start + 2]);
+						square.push(grid.slice((row_start + 2) * 9 + col_start, (row_start + 2) * 9 + col_start + 3));
+												
+						//if number not in square
+						if (square.includes(number) == false)
+						{
+							grid[row * 9 + col] = number;
+							console.log('no duplicates in square; adding ' + number + ' to row ' + row + ', column ' + col);
+							if (check_grid_full(grid) == true) { return true; }
+							else if (generate_sudoku(grid) == true) { return true; }
+						}
+					}
+				}
+			}
+			break;
+		}
+	}
+	grid[row * 9 + col] = 0;
+}
+
+function remove_entries(initial, user)
+{
+	//remove certain entries of the grid but maintain a unique solution
+	Array.from(document.getElementsByClassName('auto')).forEach(function (tile) {
+		tile.classList.remove('auto');
+	});
+	
+	//copy initial grid to the user grid
+	for (var i = 0; i < 81; i++) { user[i] = initial[i]; }
+	var row, col, temp, backup_grid;
+	var attempts = 10;
+	solutions = 1;
+	
+	while (attempts > 0)
+	{
+		//pick a random cell to leave blank
+		row = Math.floor(9 * Math.random());
+		col = Math.floor(9 * Math.random());
+		while (user[row * 9 + col] == 0) 
+		{
+			row = Math.floor(9 * Math.random());
+			col = Math.floor(9 * Math.random());
+		}
+		//store the value for backtracking purposes
+		temp = user[row * 9 + col];
+		user[row * 9 + col] = 0;
+		backup_grid = [];
+		for (var i = 0; i < 81; i++) { backup_grid[i] = user[i]; }
+		
+		//check number of solutions
+		solutions = 0;
+		backtrack(backup_grid);
+		console.log(solutions);
+		
+		if (solutions != 1)
+		{
+			user[row * 9 + col] = temp;
+			attempts -= 1;
+		}
+		solutions = 0;
+		console.log('attemps left: ' + attempts);
+	}
+}
 
 
 if (url[1] == "sudoku")
@@ -424,11 +611,40 @@ if (url[1] == "sudoku")
 	console.log("sudoku time");
 	set_timer(false);
 	
+	//empty array and fill with 81 zeroes
+	sudoku_array = [];
+	for (var i = 0; i < 81; i++) { sudoku_array.push(0); }
+	generate_sudoku(sudoku_array);
+	remove_entries(sudoku_array, user_array);
+		
+	
 	var newgame = document.getElementById('newgame');
-		newgame.addEventListener("click", function(){
-			set_timer(true);
-			set_timer(false);
-		});
+	newgame.addEventListener("click", function()
+	{
+		set_timer(true);
+		set_timer(false);
+		user_array = [];
+		for (var i = 0; i < 81; i++) { user_array.push(0); }
+		sudoku_array = [];
+		for (var i = 0; i < 81; i++) { sudoku_array.push(0); }
+		generate_sudoku(sudoku_array);
+		remove_entries(sudoku_array, user_array);		
+		
+		//fill the grid for the user
+		for (var i = 1; i <= 9; i++) {
+			for (var j = 1; j <= 9; j++) {
+				(function() {
+					var name = 'cell' + i + j;
+					if (user_array[(i - 1) * 9 + (j -1)] != 0)
+					{
+						document.getElementById(name).classList.add('auto');
+						document.getElementById(name).textContent = user_array[(i - 1) * 9 + (j -1)];
+					}
+					else { document.getElementById(name).textContent = ''; }
+				}());
+			}
+		}
+	});
 	
 	//Set up event listeners for sudoku squares
 	for (var i = 1; i <= 9; i++)
@@ -437,6 +653,12 @@ if (url[1] == "sudoku")
 		{
 			(function() {
 				var name = 'cell' + i + j;
+				if (user_array[(i - 1) * 9 + (j -1)] != 0)
+				{
+					document.getElementById(name).classList.add('auto');
+					document.getElementById(name).textContent = user_array[(i - 1) * 9 + (j -1)];
+				}
+				else { document.getElementById(name).textContent = ''; }
 				document.getElementById(name).addEventListener("click", function(){
 					select_square(name);
 				});

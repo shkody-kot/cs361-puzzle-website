@@ -311,3 +311,5 @@ li {
 .selected-square { background-color: #aed6a5 }
 .full { border-color: black; color: grey; }
 .auto { font-size: 1.4vw; color: black; }
+
+.incorrect { background-color: #e3a49a; }
