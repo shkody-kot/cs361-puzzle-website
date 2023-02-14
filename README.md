@@ -4,6 +4,8 @@ Puzzle Library includes:
   - 3x3
   - 4x4
 - Sudoku Puzzle (in progress)
+- Memory Matching Game (in progress)
+- Scoreboard (in progress)
 
 
 Microservice communication contract:
