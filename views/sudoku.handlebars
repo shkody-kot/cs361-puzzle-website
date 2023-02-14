@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {{>timer}}
 <center id="puzzle-container">
 	<div id="number-box">
@@ -129,7 +130,7 @@
 	</div>
 	<div id="puzzle-solved-buttons" class="hide">
 		<a id="solved-play-again" class="button" href="/sudoku">Play Again </a>
-		<a id="add-score" class="button">Add Time to Scoreboard </a>
+		{{>add_score}}
 	</div>
 	{{>spacer}}
 </center>

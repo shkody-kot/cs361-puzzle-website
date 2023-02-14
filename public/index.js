@@ -1,4 +1,5 @@
 var url = window.location.pathname.split('/');
+const post_url = window.location.protocol + '/add';
 
 //global timer variables
 var counting;
@@ -8,6 +9,88 @@ var disable_timer, enable_timer;
 var sudoku_array = [];
 var user_array = [];
 var notes, solutions;
+/****************************************************
+POST REQUEST
+*****************************************************/
+function add_score(game, name, time)
+{
+	if (!validate) { return; }
+	
+	var new_score = {
+		game: game,
+		name: name, 
+		time: time
+	};
+	unhide_form();
+	
+	post('/add', new_score).then(data => {console.log(data); });
+	
+	unhide_form();
+}
+
+async function post(url, data)
+{
+	console.log(data);
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(data)
+	});
+	return response.json();
+}
+
+function unhide_form() {
+	var modal = document.getElementById("score-modal");
+	var backdrop = document.getElementById("modal-backdrop");
+	if (modal.style.display === "none" && backdrop.style.display === "none") {
+		modal.style.display = "block";
+		backdrop.style.display = "block";
+	}
+	else {
+		modal.style.display = "none";
+		backdrop.style.display = "none";
+
+		document.getElementById('name-input').value = '';
+	}
+}
+
+function validate() {
+	var name = document.getElementById('name-input').value;
+	if (name == '')
+	{
+		alert("Name cannot be empty");
+		return false;
+	}
+	else { return true; }
+}
+
+if (url[1] == 'slide' || url[1] == 'sudoku' || url[1] == 'memory')
+{
+	unhide_form();
+	var game = url[1];
+	
+	//on button click, open/close the form
+	document.getElementsByClassName("add-fact-button")[0].addEventListener("click", unhide_modal);
+
+	var close = document.querySelector('.modal-close-button');
+	var cancel = document.querySelector('.modal-cancel-button');
+
+	close.onclick = unhide_form;
+	cancel.onclick = unhide_form;
+
+	//on button click, create a new fact
+	var container = document.querySelector('.puzzle-container');
+	var create = document.querySelector('.modal-accept-button');
+
+	create.addEventListener("click", function () {
+		console.log("hi");
+		add_fact( game,
+			document.getElementById('name-input').value,
+			document.getElementById('timer').textContent);
+		unhide_form();
+	});
+}
+
 /****************************************************
 TIMER
 *****************************************************/

@@ -31,24 +31,29 @@ int main(int argc, char **argv, char **envp)
 			std::ifstream infile;
 			std::ofstream outfile;
 			bool changed = false;
-			int red, green, blue;
-			int index = 1;
+			int red, green, blue, index;
 			std::string color = "";
-			red = 0;
-			green = 0;
-			blue = 0;
 			
 			while (!changed)
 			{
 				infile.open(file);
 				infile >> file_contents;
 				
-				std::cout << file_contents << std::endl;
+				red = 0;
+				green = 0;
+				blue = 0;
 				
-				if (strcmp(file_contents, "") != 0 && strstr(file_contents, color.c_str()) != 0)
+				//std::cout << file_contents << " -- " << color << " strstr: " << strstr(file_contents, color.c_str()) << std::endl;
+				
+				//if file not empty
+				if (strcmp(file_contents, "") != 0 && strstr(color.c_str(), file_contents) == NULL)
 				{
 					infile.clear();
 					infile.close();
+					
+					color.clear();
+					index = 1;
+					
 					std::cout << "processing" << std::endl;
 					//if file contains hexcode
 					for (int i = 0; i < 2; i++)
@@ -82,8 +87,8 @@ int main(int argc, char **argv, char **envp)
 					color.append(" ");
 					color.append(std::to_string(blue));
 					
-					
 					outfile.open(file);
+					outfile.clear();
 					outfile << color;
 					outfile.close();
 					for (int i = 0; i < 7; i++) { file_contents[i] = '\0'; }
@@ -91,6 +96,7 @@ int main(int argc, char **argv, char **envp)
 				}
 				else { infile.close(); std::cout << "waiting " << std::endl; sleep(1); } //otherwise sleep for one second
 			}
+			changed = false;
 		}
 	}
 }

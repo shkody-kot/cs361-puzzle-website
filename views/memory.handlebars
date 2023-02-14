@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<center>
+	{{>timer}}
+	<h2 id="game-play-message" class="message">Find all the matching cards!</h2>
+
+	<section class="memory-game">
+		{{#each card}}
+		{{>card card=.}}
+		{{>card card=.}}
+		{{/each}}
+
+	</section>
+
+	<div id="win" class="hide">
+		<h2 id="solved-message"> Congratulations </h2>
+		<p class="message-text"> All the cards match! Play again? </p>
+
+		<a class="button" href="/memory">Yes</a>
+		<a class="button" href="/">No</a>
+		{{>spacer}}
+	</div>
+</center>
