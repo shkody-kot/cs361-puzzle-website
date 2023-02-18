@@ -9,6 +9,10 @@ var disable_timer, enable_timer;
 var sudoku_array = [];
 var user_array = [];
 var notes, solutions;
+
+//global score variables
+var data = [];
+
 /****************************************************
 POST REQUEST
 *****************************************************/
@@ -70,7 +74,7 @@ if (url[1] == 'slide' || url[1] == 'sudoku' || url[1] == 'memory')
 	var game = url[1];
 	
 	//on button click, open/close the form
-	document.getElementsByClassName("add-fact-button")[0].addEventListener("click", unhide_modal);
+	document.getElementById("add-score").addEventListener("click", unhide_form);
 
 	var close = document.querySelector('.modal-close-button');
 	var cancel = document.querySelector('.modal-cancel-button');
@@ -84,7 +88,7 @@ if (url[1] == 'slide' || url[1] == 'sudoku' || url[1] == 'memory')
 
 	create.addEventListener("click", function () {
 		console.log("hi");
-		add_fact( game,
+		add_score( game,
 			document.getElementById('name-input').value,
 			document.getElementById('timer').textContent);
 		unhide_form();
@@ -764,7 +768,130 @@ if (url[1] == "sudoku")
 /****************************************************
 SCOREBOARD
 *****************************************************/
+function fill_scores(data, game)
+{
+	var table = document.getElementById("scores");
+	var child = table.lastElementChild;
+	//remove existing rows from table
+	while (child)
+	{
+		table.removeChild(child);
+		child = table.lastElementChild;
+	}
+	
+	//add headers
+	var header = document.createElement("th");
+	header.innerHTML = "Game";
+	table.appendChild(header);
+	
+	header = document.createElement("th");
+	header.innerHTML = "Player Name";
+	table.appendChild(header);
+	
+	header = document.createElement("th");
+	header.innerHTML = "Time";
+	table.appendChild(header);
+
+	
+	//add rows matching the selected game
+	if (game == 'all')
+	{
+		for (object in data)
+		{
+			var row = document.createElement('tr');
+			for (item in object)
+			{
+				var row = document.createElement('tr');
+				//add game
+				var cell = document.createElement("td");
+				cell.id = "game";
+				cell.innerHTML = data[object].game;
+				row.appendChild(cell);
+				//add name
+				cell = document.createElement("td");
+				cell.id = "name";
+				cell.innerHTML = data[object].name;
+				row.appendChild(cell);
+				//add time
+				cell = document.createElement("td");
+				cell.id = "time";
+				cell.innerHTML = data[object].time;
+				row.appendChild(cell);
+				//append row
+				table.appendChild(row);
+			}
+			table.appendChild(row);
+		}
+		
+	}
+	else
+	{		
+		for (object in data)
+		{
+			console.log(data[object].game + "-" + game);
+			var row = document.createElement('tr');
+			if (data[object].game == game)
+			{
+				console.log(data[object]);
+				//add game
+				var cell = document.createElement("td");
+				cell.id = "game";
+				cell.innerHTML = data[object].game;
+				row.appendChild(cell);
+				//add name
+				cell = document.createElement("td");
+				cell.id = "name";
+				cell.innerHTML = data[object].name;
+				row.appendChild(cell);
+				//add time
+				cell = document.createElement("td");
+				cell.id = "time";
+				cell.innerHTML = data[object].time;
+				row.appendChild(cell);
+				//append row
+				table.appendChild(row);
+			}
+			table.appendChild(row);
+		}
+	}
+}
+
 if (url[1] == "score")
 {
 	console.log("welcome to scoreboard");
+	var table = document.getElementById("scores");
+	console.log(table);
+	var cols = 3;
+	var rows = table.rows.length;
+	
+	//get data of all scores from the table
+	for (var row = 1; row < rows; row++)
+	{
+		var cells = table.rows.item(row).cells;
+		var score = {
+			game: cells.item(0).innerHTML,
+			name: cells.item(1).innerHTML,
+			time: cells.item(2).innerHTML
+		};
+		if (!data.includes(score)) { data.push(score); }
+	}
+	localStorage.setItem("scores", JSON.stringify(data));
+	
+	//set up listeners for buttons
+	
+	Array.from(document.getElementsByClassName('score')).forEach(function (button) {
+		button.addEventListener("click", function (){
+			var selected_button = document.getElementsByClassName("selected")[0];
+			var game = button.id;
+			game = game.slice(0, -6);
+			
+			data = JSON.parse(localStorage.getItem('scores'));
+			//update table and selected button
+			fill_scores(data, game);
+			console.log(selected_button.classList);
+			selected_button.classList.remove('selected');
+			button.classList.add('selected');
+		});
+	});
+	
 }

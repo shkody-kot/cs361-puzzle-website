@@ -84,11 +84,11 @@ app.get('/sudoku', function (request, response) {
 
 /*app.get('/memory', function (request, response) {
 	response.status(200).render('memory', { layout: 'main', card: memory_cards });
-});
+});*/
 
 app.get('/score', function (request, response) {
-	
-});*/
+	response.status(200).render('score', { layout: 'main', entry: scores });
+});
 
 app.get('*', function (request, response) {
 	response.status(404).render('404', { layout: 'main' });

@@ -1,5 +1,22 @@
 <!DOCTYPE html>
 <center>
+	<button id="all_score" class="button score selected"> All Scores </button>
+	<button id="slide_score" class="button score"> Slide Scores </button>
+	<button id="sudoku_score" class="button score"> Sudoku Scores </button>
+	<button id="memory_score" class="button score"> Memory Scores </button>
 	
-
+	<div class="scoreboard">
+		<table id="scores" class="table">
+		<tr>
+			<th> Game </th>
+			<th> Player Name </th>
+			<th> Time </th>
+		</tr>
+		{{#each entry}}
+		{{>entry entry=.}}
+		{{/each}}
+		</table>
+	</div>
+	<a class="button" href="/">Back to Home</a>
+	{{>spacer}}
 </center>
