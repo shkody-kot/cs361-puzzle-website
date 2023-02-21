@@ -18,5 +18,35 @@
     "game": "slide",
     "name": "the hidden button",
     "time": "3:37"
+  },
+  {
+    "game": "slide",
+    "name": "Masya Kisa",
+    "time": "0:33"
+  },
+  {
+    "game": "slide",
+    "name": "Masenka",
+    "time": "0:14"
+  },
+  {
+    "game": "sudoku",
+    "name": "Nancy Drew",
+    "time": "0:42"
+  },
+  {
+    "game": "memory",
+    "name": "Cat Matcher 3000",
+    "time": "0:44"
+  },
+  {
+    "game": "memory",
+    "name": "Cat Matcher Strikes Again",
+    "time": "0:34"
+  },
+  {
+    "game": "memory",
+    "name": "It's Locked",
+    "time": "0:40"
   }
 ]

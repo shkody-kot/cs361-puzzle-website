@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<center>
+<center id="puzzle-container">
 	{{>timer}}
-	<h2 id="game-play-message" class="message">Find all the matching cards!</h2>
+	<h2 id="game-play-message" class="message"> Find all the matching cards! </h2>
+	<h2 id="solved-message" class="hide"> Congratulations! </h2>
 
 	<section class="memory-game">
 		{{#each card}}
@@ -10,13 +11,21 @@
 		{{/each}}
 
 	</section>
+	
+	<div id="button">
+		<br>
+		<a id="newgame" class="button">New Game</a>
+		<a id="disable"class="button">Disable Timer</a>
+		<a id="enable"class="button hide">Enable Timer</a>
+		<br>
+	</div>
 
 	<div id="win" class="hide">
-		<h2 id="solved-message"> Congratulations </h2>
-		<p class="message-text"> All the cards match! Play again? </p>
+		<p id="solved-message" class="message-text"> All the cards match! Play again? </p>
 
 		<a class="button" href="/memory">Yes</a>
 		<a class="button" href="/">No</a>
-		{{>spacer}}
+		{{>add_score}}
 	</div>
+	{{>spacer}}
 </center>

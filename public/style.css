@@ -316,6 +316,47 @@ li {
 /****************************************
 Styles for memory game
 *****************************************/
+.memory-game {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	margin: auto;
+	perspective: 1000px;
+	margin-bottom: 30px;
+
+}
+
+.memory-card {
+	height: calc(10% - 10px);
+	width: calc(14% - 10px);
+	position: relative;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
+	margin: 5px;
+	background-color: #b1d9fa;
+	border-radius: 5px;
+	transform: scale(1);
+	cursor: pointer;
+	transform-style: preserve-3d;
+	transition: transform .3s;
+}
+
+.memory-card:active {
+	transform: scale(0.97);
+	transition: transform .2s;
+}
+
+.memory-card.flip { transform: rotateY(180deg); }
+
+.front-face,
+.back-face {
+	max-width: 95%;
+	height: auto;
+	margin-left: 8px;
+	margin-top: 4px;
+	border-radius: 5px;
+}
+
+.front-face { transform: rotateY(180deg); }
 
 
 /****************************************
@@ -372,9 +413,7 @@ Styles for scoreboard
 	cursor: pointer;
 }
 
-.modal-body {
-	padding: 20px;
-}
+.modal-body { padding: 20px; }
 
 .input-element {
 	display: flex;
@@ -397,9 +436,7 @@ Styles for scoreboard
 	border: 1px solid #aaa;
 }
 
-.input-element textarea {
-	min-height: 64px;
-}
+.input-element textarea { min-height: 64px; }
 
 .modal-footer {
 	display: flex;
@@ -428,8 +465,8 @@ Styles for scoreboard
 }
 
 .modal-footer .modal-accept-button:hover {
-	background-color: #fc7e91;
-	color: #4a0d16;
+	background-color: #2a5c82;
+	color: white;
 }
 
 .scoreboard {
@@ -438,7 +475,7 @@ Styles for scoreboard
 }
 
 .table th, tr {
-	width: 180px;
+	width: 230px;
 	padding: 10 20px;
 	margin: 20px;
 	font-size: 1.5vw;
@@ -451,6 +488,5 @@ th {
 	padding: 20px;
 }
 
-tr {
-	margin: 10px;
-}
+td { padding: 15px; }
+tr:nth-child(even) {  background-color: #bac9d4; }

@@ -82,9 +82,9 @@ app.get('/sudoku', function (request, response) {
 	response.status(200).render('sudoku', { layout: 'main' });
 });
 
-/*app.get('/memory', function (request, response) {
+app.get('/memory', function (request, response) {
 	response.status(200).render('memory', { layout: 'main', card: memory_cards });
-});*/
+});
 
 app.get('/score', function (request, response) {
 	response.status(200).render('score', { layout: 'main', entry: scores });

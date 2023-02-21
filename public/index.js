@@ -14,16 +14,19 @@ var notes, solutions;
 var data = [];
 
 /****************************************************
-POST REQUEST
+POST REQUEST FOR SCORES
 *****************************************************/
 function add_score(game, name, time)
 {
 	if (!validate) { return; }
 	
+	//var image = get_image_url();
+	
 	var new_score = {
 		game: game,
 		name: name, 
 		time: time
+		//img: image
 	};
 	unhide_form();
 	
@@ -41,6 +44,15 @@ async function post(url, data)
 		body: JSON.stringify(data)
 	});
 	return response.json();
+}
+
+async function get_image_url()
+{
+	const response = await fetch('localhost:3001', {
+		method: 'POST',
+		body: "Profile Request"
+	});
+	return response;
 }
 
 function unhide_form() {
@@ -92,6 +104,7 @@ if (url[1] == 'slide' || url[1] == 'sudoku' || url[1] == 'memory')
 			document.getElementById('name-input').value,
 			document.getElementById('timer').textContent);
 		unhide_form();
+		location.replace('/');
 	});
 }
 
@@ -124,7 +137,7 @@ function set_timer(started)
 	else { console.log("stopping"); clearInterval(counting); }
 }
 
-if (url[1] == "slide" || url[1] == "sudoku")
+if (url[1] == "slide" || url[1] == "sudoku" || url[1] == "memory")
 {
 	disable_timer = document.getElementById('disable');
 	enable_timer = document.getElementById('enable');
@@ -405,11 +418,6 @@ if (url[1] == "slide") {
 /****************************************************
 SUDOKU PUZZLE
 *****************************************************/
-function legal_move(square, value)
-{
-	
-}
-
 function check_sudoku()
 {
 	//checks if the user filled in the grid correctly
@@ -478,10 +486,8 @@ function fill_square(number)
 		document.getElementById('solved-message').classList.remove('hide');
 		
 		document.getElementById('newgame').classList.add('hide');
-		document.getElementById('back-button').classList.add('hide');
 		document.getElementById('enable').classList.add('hide');
 		document.getElementById('disable').classList.add('hide');
-		document.getElementById('solved-play-again').classList.remove('hide');
 		document.getElementById('puzzle-solved-buttons').classList.remove('hide');
 		document.getElementById('add-score').classList.remove('hide');
 		
@@ -764,6 +770,111 @@ if (url[1] == "sudoku")
 		}());
 	}
 }
+
+/***************************************************
+MEMORY GAME
+****************************************************/
+function flip_card() {
+	if (lock) { return; }
+
+	this.classList.add('flip');
+	var front = this.querySelector('.front-face');
+	var back = this.querySelector('.back-face');
+	front.classList.remove('hide');
+	back.classList.add('hide');
+
+	if (!flipped) {
+		flipped = true;
+		card1 = this;
+		return;
+	}
+	if (card1 != this)
+	{ 
+		card2 = this;
+		flipped = false;
+		match();
+	}
+
+}
+
+function unflip_cards() {
+	lock = true;
+	setTimeout(() => {
+		card1.classList.remove('flip');
+		card1.querySelector('.front-face').classList.add('hide');
+		card1.querySelector('.back-face').classList.remove('hide');
+		card2.classList.remove('flip');
+		card2.querySelector('.front-face').classList.add('hide');
+		card2.querySelector('.back-face').classList.remove('hide');
+	}, 500);
+	lock = false;
+}
+
+function match() {
+	var front1 = card1.querySelector('.front-face').src;
+	var front2 = card2.querySelector('.front-face').src;
+	if (front1 === front2) {
+		disable_cards();
+		if (counter == 14) { display_win(); }
+		return;
+	}
+	unflip_cards();
+}
+
+function disable_cards() {
+	card1.removeEventListener('click', flip_card);
+	card2.removeEventListener('click', flip_card);
+	counter += 2;
+}
+
+function display_win() {
+	console.log("yay");
+	set_timer(true);
+	var win_screen = document.getElementById('win');
+	win_screen.classList.remove('hide');
+	
+	document.getElementById('game-play-message').classList.add('hide');
+	document.getElementById('solved-message').classList.remove('hide');
+	
+	document.getElementById('newgame').classList.add('hide');
+	document.getElementById('enable').classList.add('hide');
+	document.getElementById('disable').classList.add('hide');
+	document.getElementById('puzzle-solved-buttons').classList.remove('hide');
+	document.getElementById('add-score').classList.remove('hide');
+}
+
+
+if (url[1] == 'memory') {
+	var flipped = false;
+	let card1, card2;
+	var counter = 0;
+	var lock = false;
+	
+	set_timer(false);
+
+	const cards = document.querySelectorAll('.memory-card')
+	cards.forEach(card => {
+		let ramdomPos = Math.floor(Math.random() * 12);
+		card.style.order = ramdomPos;
+	});
+	cards.forEach(card => card.addEventListener('click', flip_card));
+	
+	var newgame = document.getElementById("newgame");
+	newgame.addEventListener("click", function() {
+		set_timer(true);
+		set_timer(false);
+		
+		//if there are flipped cards, unflip
+		
+		
+		cards.forEach(card => {
+			let ramdomPos = Math.floor(Math.random() * 12);
+			card.style.order = ramdomPos;
+		});
+		
+	});
+}
+
 
 /****************************************************
 SCOREBOARD
