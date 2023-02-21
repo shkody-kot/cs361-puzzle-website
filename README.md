@@ -3,9 +3,9 @@ Puzzle Library includes:
 - Slide Puzzles
   - 3x3
   - 4x4
-- Sudoku Puzzle (in progress)
-- Memory Matching Game (in progress)
-- Scoreboard (in progress)
+- Sudoku Puzzle
+- Memory Matching Game
+- Scoreboard
 
 
 Microservice communication contract:
