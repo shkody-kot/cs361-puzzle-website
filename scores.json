@@ -1,52 +1,38 @@
 [
   {
-    "game": "sudoku",
-    "name": "Yes",
-    "time": "0:06"
-  },
-  {
-    "game": "sudoku",
-    "name": "vibing",
-    "time": "5:51"
-  },
-  {
-    "game": "slide",
-    "name": "yayy",
-    "time": "3:22"
-  },
-  {
-    "game": "slide",
-    "name": "the hidden button",
-    "time": "3:37"
-  },
-  {
-    "game": "slide",
-    "name": "Masya Kisa",
-    "time": "0:33"
-  },
-  {
-    "game": "slide",
-    "name": "Masenka",
-    "time": "0:14"
-  },
-  {
-    "game": "sudoku",
-    "name": "Nancy Drew",
-    "time": "0:42"
+    "game": "memory",
+    "name": "shbsbdf",
+    "time": "0:22",
+    "image": "images/users/Flippy-furret.jpg"
   },
   {
     "game": "memory",
-    "name": "Cat Matcher 3000",
-    "time": "0:44"
+    "name": "YES",
+    "time": "0:20",
+    "image": "images/users/Masya.png"
   },
   {
     "game": "memory",
-    "name": "Cat Matcher Strikes Again",
-    "time": "0:34"
+    "name": "none image please",
+    "time": "0:24",
+    "image": "images/users/none.jpg"
   },
   {
     "game": "memory",
-    "name": "It's Locked",
-    "time": "0:40"
+    "name": "vsb b",
+    "time": "0:27",
+    "image": "images/users/none.jpg"
+  },
+  {
+    "game": "memory",
+    "name": "testing because i am paranoid now",
+    "time": "0:22",
+    "image": "images/users/none.jpg"
+  },
+  {
+    "game": "memory",
+    "name": "i am a score",
+    "time": "0:33",
+    "image": "images/users/Masya.png"
   }
 ]

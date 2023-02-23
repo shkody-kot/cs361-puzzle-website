@@ -459,12 +459,12 @@ Styles for scoreboard
 	background-color: #eee;
 }
 
-.modal-footer .modal-accept-button {
+.modal-footer .modal-accept-button, .modal-footer .modal-no-img-button {
 	background-color: #8aa7bd;
 	color: white;
 }
 
-.modal-footer .modal-accept-button:hover {
+.modal-footer .modal-accept-button:hover, .modal-footer .modal-no-img-button:hover {
 	background-color: #2a5c82;
 	color: white;
 }
@@ -475,7 +475,7 @@ Styles for scoreboard
 }
 
 .table th, tr {
-	width: 230px;
+	width: 250px;
 	padding: 10 20px;
 	margin: 20px;
 	font-size: 1.5vw;
@@ -490,3 +490,8 @@ th {
 
 td { padding: 15px; }
 tr:nth-child(even) {  background-color: #bac9d4; }
+
+.profile {
+	width: 50px;
+	height: auto;
+}

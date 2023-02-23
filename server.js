@@ -1,12 +1,12 @@
-//Server-side shenanigans
 //Required packages
 const express = require("express");
 var path = require('path');
 var fs = require('fs');
-var hbs = require('express-handlebars')
+var hbs = require('express-handlebars');
 //json files for score and memory
-var scores = require(__dirname + '/scores.json')
-var memory_cards = require(__dirname + '/memory_cards.json')
+var scores = require(__dirname + '/scores.json');
+var memory_cards = require(__dirname + '/memory_cards.json');
+var image_storage = __dirname + "/public/images/users/";
 
 //create application
 var app = express();
@@ -31,12 +31,31 @@ app.engine('handlebars', hbs.engine({
 app.post('/add', function(request, response, next){
 	console.log('post request received');
 	console.log(request.body);
+	var new_path = image_storage + "none.jpg";
+	var name;
+	if (request.body.img)
+	{
+		var split_path = request.body.img.split('/');
+		name = split_path[split_path.length - 1]
+		name = name.replace(" ", "-");
+		console.log(name);
+		new_path = image_storage + name;
+		split_path[0] = "/mnt/c";
+		
+		fs.copyFile(split_path.join('/'), new_path, (error) => {
+			if (error) throw error;
+			console.log("Copied!");
+		});
+	}
+	else { name = "none.jpg"; }
+	
 	if (request.body && request.body.game && request.body.name && request.body.time)
 	{
 		scores.push({
 			"game": request.body.game,
 			"name": request.body.name,
-			"time": request.body.time
+			"time": request.body.time,
+			"image": "images/users/" + name
 		});
 		fs.writeFile(
 			"./scores.json",

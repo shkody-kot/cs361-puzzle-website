@@ -16,23 +16,66 @@ var data = [];
 /****************************************************
 POST REQUEST FOR SCORES
 *****************************************************/
-function add_score(game, name, time)
+async function add_score(game, name, time, image)
 {
 	if (!validate) { return; }
 	
-	//var image = get_image_url();
-	
-	var new_score = {
-		game: game,
-		name: name, 
-		time: time
-		//img: image
-	};
-	unhide_form();
-	
-	post('/add', new_score).then(data => {console.log(data); });
-	
-	unhide_form();
+	//get the image
+	if (image)
+	{
+		const socket = new WebSocket("ws://127.0.0.1:62313");
+		console.log(socket);
+		const reader = new FileReader();
+		var url, image;
+		
+		reader.addEventListener('loadend', (e) => {
+			const text = e.srcElement.result;
+			image = text; 
+			console.log(text);
+			
+			var new_score = {
+				game: game,
+				name: name, 
+				time: time,
+				img: image
+			};
+			unhide_form();
+			
+			post('/add', new_score).then(data => {console.log(data); });
+			
+			unhide_form();
+		});
+
+		socket.onopen = (event) => {
+			console.log("[open] Connection Event hAppened");
+			socket.send("Image Request");
+		};
+		
+		socket.addEventListener('error', (event) => {
+			console.log('WebSocket error: ', event);
+		});
+		
+		socket.onmessage = (event) => {
+			url = event.data;
+			socket.send("Image Received");
+			socket.close();
+		
+			reader.readAsText(url);
+		}
+	}
+	else
+	{
+		var new_score = {
+			game: game,
+			name: name, 
+			time: time
+		};
+		unhide_form();
+		
+		post('/add', new_score).then(data => {console.log(data); });
+		
+		unhide_form();
+	}
 }
 
 async function post(url, data)
@@ -44,15 +87,6 @@ async function post(url, data)
 		body: JSON.stringify(data)
 	});
 	return response.json();
-}
-
-async function get_image_url()
-{
-	const response = await fetch('localhost:3001', {
-		method: 'POST',
-		body: "Profile Request"
-	});
-	return response;
 }
 
 function unhide_form() {
@@ -97,14 +131,23 @@ if (url[1] == 'slide' || url[1] == 'sudoku' || url[1] == 'memory')
 	//on button click, create a new fact
 	var container = document.querySelector('.puzzle-container');
 	var create = document.querySelector('.modal-accept-button');
+	var no_image = document.querySelector('.modal-no-img-button');
 
 	create.addEventListener("click", function () {
 		console.log("hi");
 		add_score( game,
 			document.getElementById('name-input').value,
-			document.getElementById('timer').textContent);
+			document.getElementById('timer').textContent, true);
 		unhide_form();
-		location.replace('/');
+		//location.replace('/');
+	});
+	no_image.addEventListener("click", function () {
+		console.log("hi");
+		add_score( game,
+			document.getElementById('name-input').value,
+			document.getElementById('timer').textContent, false);
+		unhide_form();
+		//location.replace('/');
 	});
 }
 
@@ -839,7 +882,6 @@ function display_win() {
 	document.getElementById('newgame').classList.add('hide');
 	document.getElementById('enable').classList.add('hide');
 	document.getElementById('disable').classList.add('hide');
-	document.getElementById('puzzle-solved-buttons').classList.remove('hide');
 	document.getElementById('add-score').classList.remove('hide');
 }
 
