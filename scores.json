@@ -34,5 +34,23 @@
     "name": "i am a score",
     "time": "0:33",
     "image": "images/users/Masya.png"
+  },
+  {
+    "game": "sudoku",
+    "name": "sudoku solver",
+    "time": "0:38",
+    "image": "images/users/none.jpg"
+  },
+  {
+    "game": "slide",
+    "name": "Cat Slider 3000",
+    "time": "0:46",
+    "image": "images/users/21273135_1462114543870421_3043022282220872613_o.jpg"
+  },
+  {
+    "game": "slide",
+    "name": "Keep it Reel",
+    "time": "2:26",
+    "image": "images/users/FatCat_DealWithIt.png"
   }
 ]

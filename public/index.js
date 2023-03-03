@@ -28,8 +28,8 @@ async function add_score(game, name, time, image)
 		const reader = new FileReader();
 		var url, image;
 		
-		reader.addEventListener('loadend', (e) => {
-			const text = e.srcElement.result;
+		reader.addEventListener('loadend', (event) => {
+			const text = event.srcElement.result;
 			image = text; 
 			console.log(text);
 			
@@ -46,14 +46,9 @@ async function add_score(game, name, time, image)
 			unhide_form();
 		});
 
-		socket.onopen = (event) => {
-			console.log("[open] Connection Event hAppened");
-			socket.send("Image Request");
-		};
+		socket.onopen = (event) => { socket.send("Image Request"); };
 		
-		socket.addEventListener('error', (event) => {
-			console.log('WebSocket error: ', event);
-		});
+		socket.addEventListener('error', (event) => { console.log('WebSocket error: ', event); });
 		
 		socket.onmessage = (event) => {
 			url = event.data;
@@ -75,6 +70,7 @@ async function add_score(game, name, time, image)
 		post('/add', new_score).then(data => {console.log(data); });
 		
 		unhide_form();
+		location.replace('/');
 	}
 }
 
@@ -128,26 +124,24 @@ if (url[1] == 'slide' || url[1] == 'sudoku' || url[1] == 'memory')
 	close.onclick = unhide_form;
 	cancel.onclick = unhide_form;
 
-	//on button click, create a new fact
 	var container = document.querySelector('.puzzle-container');
 	var create = document.querySelector('.modal-accept-button');
 	var no_image = document.querySelector('.modal-no-img-button');
 
+	//on button click, add score with an image
 	create.addEventListener("click", function () {
-		console.log("hi");
 		add_score( game,
 			document.getElementById('name-input').value,
 			document.getElementById('timer').textContent, true);
 		unhide_form();
-		//location.replace('/');
 	});
+	
+	//add score without an image (default image)
 	no_image.addEventListener("click", function () {
-		console.log("hi");
 		add_score( game,
 			document.getElementById('name-input').value,
 			document.getElementById('timer').textContent, false);
 		unhide_form();
-		//location.replace('/');
 	});
 }
 
@@ -158,7 +152,6 @@ function set_timer(started)
 {
 	//Timer code adapted from w3schools' countdown code at: https://www.w3schools.com/howto/howto_js_countdown.asp
 	//accessed jan. 24, 2023
-	console.log("welcome to timer land");
 	if (!started)
 	{
 		//get start time
@@ -177,7 +170,7 @@ function set_timer(started)
 			else { document.getElementById("timer").textContent = minutes + ':' + seconds; }
 		});
 	}
-	else { console.log("stopping"); clearInterval(counting); }
+	else { clearInterval(counting); }
 }
 
 if (url[1] == "slide" || url[1] == "sudoku" || url[1] == "memory")
@@ -292,25 +285,17 @@ function getInversions() {
 		else {  num = parseInt(square[4] + square[5]);}
 		order.push(num);
 	}
-	//console.log("Order: ", order);
 	var inversions = 0;
 	for (let i = 0; i < order.length; i++) {
 		for (let x = i + 1; x < order.length; x++) {
-			if (order[i] > order[x])
-			{
-				console.log("length: " + order.length + " " + order[i] + " " + order[x]);
-				inversions = inversions + 1;
-			}
+			if (order[i] > order[x]) { inversions = inversions + 1; }
 		}
 	}
-	console.log(inversions);
 	return inversions;
 }
 
 function swap(cell1, cell2) {
-	//console.log("swapping " + cell1 + " and " + cell2);
 	var temp = document.getElementById(cell1).className;
-	//console.log(temp);
 	document.getElementById(cell1).className = document.getElementById(cell2).className;
 	document.getElementById(cell2).className = temp;
 }
@@ -378,7 +363,6 @@ if (url[1] == "slide") {
 		console.log(tiles);
 		Array.from(tiles).forEach(function (tile) {
 			tile.classList.add('tiles2');
-			console.log(tile.className);
 		});
 	}
 	else if (url[2] == 2) {
@@ -386,7 +370,6 @@ if (url[1] == "slide") {
 		tiles = document.getElementsByClassName('tiles');
 		Array.from(tiles).forEach(function (tile) {
 			tile.classList.add('tiles3');
-			console.log(tile.className);
 		});
 	}
 	else if (url[2] == 3) {
@@ -394,7 +377,6 @@ if (url[1] == "slide") {
 		tiles = document.getElementsByClassName('tiles');
 		Array.from(tiles).forEach(function (tile) {
 			tile.classList.add('tiles4');
-			console.log(tile.className);
 		});
 	}
 	
@@ -455,7 +437,6 @@ if (url[1] == "slide") {
 			}
 		}
 	}
-
 }
 
 /****************************************************
@@ -482,7 +463,6 @@ function select_square(square)
 	if (temp != null ) { temp.classList.remove('selected-square'); }
 	
 	//select square, then select number to place into square
-	console.log(square + " clicked");
 	var square = document.getElementById(square);
 	
 	//if it's a provided square value, do not allow selection
@@ -502,10 +482,7 @@ function select_square(square)
 }
 
 function fill_square(number)
-{
-	//find the selected square and fill it with provided number
-	console.log('fill with number ' + number);
-	
+{	
 	//fill in square
 	var square = document.getElementsByClassName('selected-square')[0];
 	square.textContent = number;
@@ -522,6 +499,7 @@ function fill_square(number)
 	Array.from(document.getElementsByClassName('selected-row-col')).forEach(function (tile) {
 		tile.classList.remove('selected-row-col');
 	});
+	//check if user won
 	if (check_sudoku() == true)
 	{
 		set_timer(true);
@@ -564,74 +542,11 @@ function random_index(array)
 	return array;
 }
 
-function backtrack(grid)
-{
-	for (var i = 0; i < 81; i++)
-	{
-		row = parseInt(i / 9);
-		col = i % 9;
-		//if cell is blank:
-		if (grid[row * 9 + col] == 0)
-		{
-			for (var index = 0; index < 9; index++)
-			{
-				var number = index + 1;
-				//check that this number has not been used in current row
-				if (number != grid[row * 9 + 0] && number != grid[row * 9 + 1] && number != grid[row * 9 + 2] && 
-					number != grid[row * 9 + 3] && number != grid[row * 9 + 4] && number != grid[row * 9 + 5] && 
-					number != grid[row * 9 + 6] && number != grid[row * 9 + 7] && number != grid[row * 9 + 8])
-				{
-					//check that this number is not in the current column
-					//console.log('no duplicates in row, checking column for value ' + number);
-					if (number != grid[0 * 9 + col] && number != grid[1 * 9 + col] && number != grid[2 * 9 + col] && 
-						number != grid[3 * 9 + col] && number != grid[4 * 9 + col] && number != grid[5 * 9 + col] && 
-						number != grid[6 * 9 + col] && number != grid[7 * 9 + col] && number != grid[8 * 9 + col])
-					{
-						//find the 3x3 square that we're in right now
-						//console.log('no duplicates in column, checking square for value ' + number);
-						var square = [];
-						var row_start, col_start;
-						//get rows for square
-						if (row < 3) { row_start = 0; }
-						else if (row < 6) { row_start = 3; }
-						else { row_start = 6; }
-						
-						//get columns for square
-						if (col < 3) { col_start = 0; }
-						else if (col < 6) { col_start = 3; }
-						else { col_start = 6; }
-						
-						//add slices of grid into square
-						square.push(grid[row_start * 9 + col_start], grid[row_start * 9 + col_start + 1], grid[row_start * 9 + col_start + 2]);
-						square.push(grid[(row_start + 1) * 9 + col_start], grid[(row_start + 1) * 9 + col_start + 1], grid[(row_start + 1) * 9 + col_start + 2]);
-						square.push(grid.slice((row_start + 2) * 9 + col_start, (row_start + 2) * 9 + col_start + 3));
-												
-						//if number not in square
-						if (square.includes(number) == false)
-						{
-							grid[row * 9 + col] = number;
-							//console.log('no duplicates in square; adding ' + number + ' to row ' + row + ', column ' + col);
-							if (check_grid_full(grid) == true) 
-							{ 
-								solutions += 1; 
-								break; 
-							}
-							else { if (backtrack(grid) == true) { return true; }} 
-						}
-					}
-				}
-			}
-			break;
-		}
-	}
-	grid[row * 9 + col] = 0;
-}
-
 /* Implementation of sudoku generation and backtracking algorithms adopted from:
 	- https://www.101computing.net/sudoku-generator-algorithm/
 	- https://stackoverflow.com/questions/6924216/how-to-generate-sudoku-boards-with-unique-solutions
 */
-function generate_sudoku(grid)
+function generate_sudoku(grid, backtrack)
 {	
 	//numbers array
 	var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -642,7 +557,6 @@ function generate_sudoku(grid)
 	{
 		row = parseInt(i / 9);
 		col = i % 9;
-		//console.log('row: ' + row + ' col:' + col);
 		//if cell is blank:
 		if (grid[row * 9 + col] == 0)
 		{
@@ -656,13 +570,11 @@ function generate_sudoku(grid)
 					number != grid[row * 9 + 6] && number != grid[row * 9 + 7] && number != grid[row * 9 + 8])
 				{
 					//check that this number is not in the current column
-					//console.log('no duplicates in row, checking column for value ' + number);
 					if (number != grid[0 * 9 + col] && number != grid[1 * 9 + col] && number != grid[2 * 9 + col] && 
 						number != grid[3 * 9 + col] && number != grid[4 * 9 + col] && number != grid[5 * 9 + col] && 
 						number != grid[6 * 9 + col] && number != grid[7 * 9 + col] && number != grid[8 * 9 + col])
 					{
 						//find the 3x3 square that we're in right now
-						//console.log('no duplicates in column, checking square for value ' + number);
 						var square = [];
 						var row_start, col_start;
 						//get rows for square
@@ -684,9 +596,20 @@ function generate_sudoku(grid)
 						if (square.includes(number) == false)
 						{
 							grid[row * 9 + col] = number;
-							console.log('no duplicates in square; adding ' + number + ' to row ' + row + ', column ' + col);
-							if (check_grid_full(grid) == true) { return true; }
-							else if (generate_sudoku(grid) == true) { return true; }
+							if (backtrack)
+							{
+								if (check_grid_full(grid) == true) 
+								{ 
+									solutions += 1; 
+									break; 
+								}
+								else { if (generate_sudoku(grid, true) == true) { return true; }} 
+							}
+							else
+							{
+								if (check_grid_full(grid) == true) { return true; }
+								else if (generate_sudoku(grid, false) == true) { return true; }
+							}
 						}
 					}
 				}
@@ -728,7 +651,7 @@ function remove_entries(initial, user)
 		
 		//check number of solutions
 		solutions = 0;
-		backtrack(backup_grid);
+		generate_sudoku(backup_grid, true);
 		console.log(solutions);
 		
 		if (solutions != 1)
@@ -737,20 +660,18 @@ function remove_entries(initial, user)
 			attempts -= 1;
 		}
 		solutions = 0;
-		console.log('attemps left: ' + attempts);
 	}
 }
 
 
 if (url[1] == "sudoku")
 {
-	console.log("sudoku time");
 	set_timer(false);
 	
 	//empty array and fill with 81 zeroes
 	sudoku_array = [];
 	for (var i = 0; i < 81; i++) { sudoku_array.push(0); }
-	generate_sudoku(sudoku_array);
+	generate_sudoku(sudoku_array, false);
 	remove_entries(sudoku_array, user_array);
 		
 	
@@ -763,7 +684,7 @@ if (url[1] == "sudoku")
 		for (var i = 0; i < 81; i++) { user_array.push(0); }
 		sudoku_array = [];
 		for (var i = 0; i < 81; i++) { sudoku_array.push(0); }
-		generate_sudoku(sudoku_array);
+		generate_sudoku(sudoku_array, false);
 		remove_entries(sudoku_array, user_array);		
 		
 		//fill the grid for the user
@@ -906,14 +827,11 @@ if (url[1] == 'memory') {
 		set_timer(true);
 		set_timer(false);
 		
-		//if there are flipped cards, unflip
-		
-		
+		//if there are flipped cards, unflip		
 		cards.forEach(card => {
 			let ramdomPos = Math.floor(Math.random() * 12);
 			card.style.order = ramdomPos;
 		});
-		
 	});
 }
 
@@ -955,53 +873,23 @@ function fill_scores(data, game)
 			for (item in object)
 			{
 				var row = document.createElement('tr');
-				//add game
-				var cell = document.createElement("td");
-				cell.id = "game";
-				cell.innerHTML = data[object].game;
-				row.appendChild(cell);
-				//add name
-				cell = document.createElement("td");
-				cell.id = "name";
-				cell.innerHTML = data[object].name;
-				row.appendChild(cell);
-				//add time
-				cell = document.createElement("td");
-				cell.id = "time";
-				cell.innerHTML = data[object].time;
-				row.appendChild(cell);
-				//append row
+				row = add_scoreboard_row(row, data[object].game, data[object].name, data[object].time);
+				
 				table.appendChild(row);
 			}
 			table.appendChild(row);
 		}
-		
 	}
 	else
 	{		
 		for (object in data)
 		{
-			console.log(data[object].game + "-" + game);
 			var row = document.createElement('tr');
+			
+			//only add score if the game matches the requested game
 			if (data[object].game == game)
 			{
-				console.log(data[object]);
-				//add game
-				var cell = document.createElement("td");
-				cell.id = "game";
-				cell.innerHTML = data[object].game;
-				row.appendChild(cell);
-				//add name
-				cell = document.createElement("td");
-				cell.id = "name";
-				cell.innerHTML = data[object].name;
-				row.appendChild(cell);
-				//add time
-				cell = document.createElement("td");
-				cell.id = "time";
-				cell.innerHTML = data[object].time;
-				row.appendChild(cell);
-				//append row
+				row = add_scoreboard_row(row, data[object].game, data[object].name, data[object].time);	
 				table.appendChild(row);
 			}
 			table.appendChild(row);
@@ -1009,9 +897,27 @@ function fill_scores(data, game)
 	}
 }
 
+function add_scoreboard_row(row, game, name, time)
+{
+	var cell = document.createElement("td");
+	cell.id = "game";
+	cell.innerHTML = game;
+	row.appendChild(cell);
+	
+	cell = document.createElement("td");
+	cell.id = "name";
+	cell.innerHTML = name;
+	row.appendChild(cell);
+	
+	cell = document.createElement("td");
+	cell.id = "time";
+	cell.innerHTML = time;
+	row.appendChild(cell);
+	return row;
+}
+
 if (url[1] == "score")
 {
-	console.log("welcome to scoreboard");
 	var table = document.getElementById("scores");
 	console.log(table);
 	var cols = 3;
@@ -1030,8 +936,7 @@ if (url[1] == "score")
 	}
 	localStorage.setItem("scores", JSON.stringify(data));
 	
-	//set up listeners for buttons
-	
+	//set up listeners for buttons	
 	Array.from(document.getElementsByClassName('score')).forEach(function (button) {
 		button.addEventListener("click", function (){
 			var selected_button = document.getElementsByClassName("selected")[0];
@@ -1046,5 +951,4 @@ if (url[1] == "score")
 			button.classList.add('selected');
 		});
 	});
-	
 }
